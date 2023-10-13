@@ -3,15 +3,20 @@ semester_sortierung Block
 
 This file is part of the block_semester_sortierung plugin for Moodle - <http://moodle.org/>
 
-*Author:*    Simeon Naydenov, Katarzyna Potocka
+*Author:*    Simeon Naydenov, Katarzyna Potocka, Harry Bleckert
 
-*Copyright:* 2019 [Academic Moodle Cooperation](http://www.academic-moodle-cooperation.org)
+*Copyright:* 2020 [Academic Moodle Cooperation](http://www.academic-moodle-cooperation.org)
+
+*Copyright:* 2023 onwards ASH Berlin (https://ASH-Berlin.eu)
 
 *License:*   [GNU GPL v3 or later](http://www.gnu.org/copyleft/gpl.html)
 
 
 Description
 -----------
+
+This plugin can be used with latest Moodle 4.x versions. 
+It is a fork of moodle-blocks_semester_sortierung which is not maintained anymore.
 
 In the semester_sortierung block courses are grouped by their starting dates in a semester view on the MyMoodle
 page.
@@ -21,6 +26,12 @@ individual courses.
 
 The module will also feature a "My favourites" area, for which courses from different semesters can
 be selected and they will then be listed at the top of the favourites area.
+
+**WARNING: This plugin is deprecated.** The last maintained version of the Plugin will be for Moodle 3.9. After 3.9 we won’t maintain the plugin any further. 
+The reason behind that is that now you can achieve similar functionality using the core Course Overview Block and its new filtering capabilities.  
+
+For further information on how to use moodle core features check the course overview functionality and the filter options. 
+
 
 
 Example
@@ -33,7 +44,7 @@ and the favourites area for quick access.
 Requirements
 ------------
 
-The plugin is available for Moodle 2.5+. This version is for Moodle 3.7.
+The plugin is available for Moodle 2.5+. This version is for Moodle 3.9.
 
 
 Installation

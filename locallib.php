@@ -21,7 +21,9 @@
  * @author        Andreas Hruska (andreas.hruska@tuwien.ac.at)
  * @author        Katarzyna Potocka (katarzyna.potocka@tuwien.ac.at)
  * @author        Simeon Naydenov (moniNaydenov@gmail.com)
- * @copyright     2014 Academic Moodle Cooperation {@link http://www.academic-moodle-cooperation.org}
+ * @author        Harry Bleckert (Harry@Bleckert.com)
+ * @copyright     2020 Academic Moodle Cooperation {@link http://www.academic-moodle-cooperation.org}
+ * @copyright     2023 onwards ASH Berlin {@link https://ASH-Berlin.eu}
  * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -139,7 +141,7 @@ function block_semester_sortierung_fill_course_semester($courses, $config, $chos
     }
 
     foreach ($courses as $course) {
-        $semester = block_semester_sortierung_get_semester($config, $course->startdate);
+        $semester = block_semester_sortierung_get_semester($config, $course->startdate, $course->idnumber);
         $course->semester_short = $semester->semester_short;
         if (empty($sortedcourses[$course->semester_short])) {
             $sortedcourses[$course->semester_short] = array(
@@ -245,14 +247,23 @@ function block_semester_sortierung_sort_user_personal_sort($sortedcourses, $conf
  *
  * @return string
  */
-function block_semester_sortierung_get_semester($config, $timestamp) {
+function block_semester_sortierung_get_semester($config, $timestamp, $idnumber=0) {
     global $CFG;
+
     $month = userdate($timestamp, '%m');
     $year = userdate($timestamp, '%Y');
+    // logic below needs improvment :)
+    if (false and isset($CFG->ash) and !empty($idnumber) and substr($idnumber, -5, 2) == "20") {
+        $year = substr($idnumber,-5,4);
+        $sem = substr($idnumber, -1);
+        $month = 1;
+        if (intval($sem) == 1) {
+            $month = "6";
+        }
+        print "<!-- idnumber:$idnumber - sem:$sem - month:$month - Year:$year -->";
+    }
     $prevyear = strval((intval($year) - 1));
     $nextyear = strval((intval($year) + 1));
-    $semester = '';
-    $short = '';
 
     if (isset($config->wintermonths) && strpos($config->wintermonths, 'mon'.$month) !== false) {
         if (intval($month) <= 6) {
@@ -319,6 +330,9 @@ function block_semester_sortierung_get_events($vault, $courseids, $timesortfrom,
 function block_semester_sortierung_get_courses_events($courses, $output) {
     global $CFG, $USER;
 
+	// disabled by Harry on Aug 17, 2023
+	return array();
+	
     require_once($CFG->dirroot . '/calendar/lib.php');
     require_once($CFG->dirroot . '/calendar/externallib.php');
 

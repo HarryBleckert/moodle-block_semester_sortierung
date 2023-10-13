@@ -22,7 +22,9 @@
  * @author        Andreas Hruska (andreas.hruska@tuwien.ac.at)
  * @author        Katarzyna Potocka (katarzyna.potocka@tuwien.ac.at)
  * @author        Simeon Naydenov (moniNaydenov@gmail.com)
- * @copyright     2014 Academic Moodle Cooperation {@link http://www.academic-moodle-cooperation.org}
+ * @author        Harry Bleckert (Harry@Bleckert.com)
+ * @copyright     2020 Academic Moodle Cooperation {@link http://www.academic-moodle-cooperation.org}
+ * @copyright     2023 onwards ASH Berlin {@link https://ASH-Berlin.eu}
  * @license       http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -97,7 +99,7 @@ class block_semester_sortierung extends block_base {
         $context = new stdClass;
 
         // Get the information about the enrolled courses.
-        $courses = enrol_get_my_courses('id, fullname, shortname, summary, summaryformat, enddate', 'visible DESC, fullname ASC');
+        $courses = enrol_get_my_courses('id, fullname, shortname, summary, summaryformat, enddate, idnumber', 'visible DESC, fullname ASC');
         $cid = optional_param('block_semester_sortierung_favorites', null, PARAM_ALPHANUM);
         $status = optional_param('status', null, PARAM_ALPHANUM);
         if (!empty($cid)) {
@@ -130,6 +132,10 @@ class block_semester_sortierung extends block_base {
                 $courses[$c->id]->lastaccess = 0;
             }
 
+            // Support filter in fullname and summary.
+            $courses[$c->id]->fullname = format_string($courses[$c->id]->fullname);
+            $courses[$c->id]->summary = format_string($courses[$c->id]->summary);
+
             // Use the loop to load unread forum posts!
             if ($this->config->showunreadforumposts == 1) {
                 $unreadposts = forum_tp_get_course_unread_posts($USER->id, $c->id);
@@ -143,7 +149,6 @@ class block_semester_sortierung extends block_base {
             }
         }
 
-
         // Add the semester to each course.
         $courses = block_semester_sortierung_fill_course_semester($courses, $this->config);
         $courses = block_semester_sortierung_sort_user_personal_sort($courses, $this->config);
@@ -156,6 +161,12 @@ class block_semester_sortierung extends block_base {
             $context->semestersexpanded = array();
         }
 
+		
+		/*
+		Problem mit Fehlermeldung pdfexportfont property in Dashboard wird evtl. ausgelöst duch Fehler
+		
+		*/
+		
         if ($coursesexpanded = get_user_preferences('semester_sortierung_courses', '')) {
             $coursesexpanded = array_flip(explode(',', $coursesexpanded));
         } else {
@@ -172,7 +183,6 @@ class block_semester_sortierung extends block_base {
 
         $count = 0;
         $autoclose = isset($this->config->autoclose) ? intval($this->config->autoclose) : 0;
-
 
         // Create an array with expanded courses to be filled up with info.
         foreach ($context->courses as $semester => $semesterinfo) {

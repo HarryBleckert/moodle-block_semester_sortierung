@@ -1,6 +1,24 @@
 CHANGELOG
 =========
 
+3.9.1 (2020-08-05)
+------------------
+* version 3.9 is the last supported version of this plugin. Use the moodle core block  “course overview” and the filter options, in order to provide your users with a similar experience.
+
+
+3.9.0 (2020-06-16)
+------------------
+* Moodle 3.9 compatible version
+
+
+3.8.0 (2019-11-15)
+------------------
+* Moodle 3.8 compatible version
+
+3.7.1 (2019-11-15)
+------------------
+* [FEATURE] - support filter in course fullname and summary  [github pull @lucaboesch]
+
 3.7.0 (2019-05-20)
 ------------------
 * Moodle 3.7 compatible version
